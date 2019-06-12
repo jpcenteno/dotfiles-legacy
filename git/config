@@ -1,3 +1,22 @@
 [user]
 	email = jpcenteno@users.noreply.github.com
 	name = Joaquín P. Centeno
+
+
+[alias]
+
+    s   = status
+
+    c   = commit
+
+    a   = add
+    ap  = add -p
+
+    co  = checkout
+    cob = checkout -b
+
+    pu  = pull
+    pur = pull --rebase
+
+    # src: https://coderwall.com/p/euwpig/a-better-git-log
+    lg  = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --
