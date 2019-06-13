@@ -1,0 +1,6 @@
+# Copy 2 clipboard
+set selection-clipboard clipboard
+
+# Show only the filename
+set window-title-basename   "true"
+set statusbar-basename      "true"
