@@ -1,0 +1,48 @@
+# Static table lookup for hostnames.
+# See hosts(5) for details.
+
+# System rules
+127.0.0.1           localhost
+127.0.0.1           localhost.localdomain
+127.0.0.1           local
+255.255.255.255     broadcasthost
+::1                 localhost
+::1                 ip6-localhost
+::1                 ip6-loopback
+fe80::1%lo0         localhost
+ff00::0             ip6-localnet
+ff00::0             ip6-mcastprefix
+ff02::1             ip6-allnodes
+ff02::2             ip6-allrouters
+ff02::3             ip6-allhosts
+0.0.0.0             0.0.0.0
+
+# Blocklist ====================================================================
+
+# Social Networks and addictive entertainment
+0.0.0.0     facebook.com
+0.0.0.0     www.facebook.com
+0.0.0.0     es-la.facebook.com
+0.0.0.0     www.es-la.facebook.com
+0.0.0.0     instagram.com
+0.0.0.0     www.instagram.com
+0.0.0.0     twitter.com
+0.0.0.0     www.twitter.com
+0.0.0.0     netflix.com
+0.0.0.0     www.netflix.com
+
+# News sites
+0.0.0.0     lobste.rs
+0.0.0.0     www.lobste.rs
+0.0.0.0     news.ycombinator.com
+0.0.0.0     www.news.ycombinator.com
+0.0.0.0     www.lanacion.com.ar
+0.0.0.0     lanacion.com.ar
+0.0.0.0     www.clarin.com
+0.0.0.0     clarin.com
+0.0.0.0     www.perfil.com
+0.0.0.0     perfil.com
+0.0.0.0     www.infobae.com
+0.0.0.0     infobae.com
+0.0.0.0     www.pagina12.com.ar
+0.0.0.0     pagina12.com.ar

@@ -1,0 +1,45 @@
+#! /bin/sh
+
+
+# update-hosts:
+#   Updates my `/etc/hosts` based blacklist.
+#
+# usage: `update-hosts`
+#   - There are no parameters.
+#   - If present, prepends the hosts file with the contents of the file called
+#     `./hosts`.
+#   - The URL environment variable can be used to specify a custom ruleset URL.
+#
+# Troubleshooting:
+#   On trouble, just restore the original hosts file.
+
+
+set -eu
+
+
+# Blacklist for ads, malware, fake news and porn.
+URL="${URL:-https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-porn/hosts}"
+
+
+# Fetch and clean the blacklist.
+fetch_blacklist() {
+    # The blacklist providers should not be trusted. By removing every line
+    # that is not a null redirect, we prevent redirection attacks. This script
+    # is still vulnerable to blacklist creators null-redirecting good sites,
+    # but it's a low impact threat.
+    curl "$URL" | sed -e 's/^\s*//' | grep -e '^0\.0\.0\.0' | sort | uniq
+}
+
+
+# Format the hosts file
+format_hosts() {
+    [ -f "hosts" ] && cat hosts || true
+    echo
+    echo "# Begin upstream blacklist"
+    fetch_blacklist
+    echo "# End upstream blacklist"
+}
+
+
+rm -f /etc/hosts
+format_hosts > /etc/hosts
