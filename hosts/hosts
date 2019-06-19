@@ -33,7 +33,7 @@ ff02::3             ip6-allhosts
 0.0.0.0     reddit.com
 0.0.0.0     www.reddit.com
 
-# News sites
+# News sites (Journalism evolved into entertainment)
 0.0.0.0     lobste.rs
 0.0.0.0     www.lobste.rs
 0.0.0.0     news.ycombinator.com
