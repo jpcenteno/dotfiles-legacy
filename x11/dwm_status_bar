@@ -1,0 +1,60 @@
+#! /usr/bin/env bash
+set -eu
+
+## dwm_status_bar
+##
+## This little script prints some system information to the stdout. Works only
+## on Linux. I guess that the same could be archieved with `slinfo` if I wanted
+## this to also work on the BSDs.
+
+
+datetime() {
+    date +" %m/%d   %R"
+}
+
+
+bat() {
+    # I like this icon too: 🔌
+    bat_dir="$( ls -d -1 /sys/class/power_supply/* | grep BAT | sort | head -n 1 )"
+    [[ "$( cat "$bat_dir/status" )" == "Discharging" ]] && icon="" || icon=""
+    pct="$( awk '{ printf("%2d", $1) }' "$bat_dir/capacity" )"
+    echo "$icon $pct%"
+}
+
+
+volume() {
+    # This icon would be cool if headphones are detected 
+    pct="$( amixer get Master | tail -1 | awk -F'[][]' '{ printf("%3d", $2) }' )"
+    echo " $pct%"
+}
+
+
+disk() {
+    pct="$( df -k . --output="pcent" | awk 'END{ printf("%2d", $1) }' )"
+    echo " $pct%"
+}
+
+
+ram() {
+    pct="$( free | awk '/Mem/ { printf("%2d", $3/$2 * 100.0) }' )"
+    echo " $pct%"
+}
+
+
+pending_upgrades() {
+
+    local readonly XDG_CACHE_HOME="${XDG_CACHE_HOME:-${HOME}/.cache}"
+    local readonly PENDING_UPGRADES="${XDG_CACHE_HOME}/pending_upgrades.txt"
+
+    if [ ! -f "${PENDING_UPGRADES}" ]; then
+        return
+    fi
+
+    # If the file is non-empty.
+    if [ -s "${PENDING_UPGRADES}" ]; then
+        echo ""
+    fi
+}
+
+
+echo " $(pending_upgrades) $(ram)  $(disk)  $(volume)  $(bat)  $( datetime ) "

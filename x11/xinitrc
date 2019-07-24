@@ -1,0 +1,36 @@
+# /bin/sh
+
+# Update the DWM status bar message.
+while true; do
+    # The status bar text is set by an external script in order to get
+    # instant feedback. This gets the clock updated among other things.
+    if command -v dwm_status_bar > /dev/null; then
+        xsetroot -name "$( dwm_status_bar )"
+    else
+        xsetroot -name "dwm_status_bar not found!"
+    fi
+    sleep 1s
+done &
+
+# set wallpaper color.
+xsetroot -solid "#222222" # same color i'm using for bg in dwm
+
+# Keyboard settings:
+#
+# The `-variant mac` part mimics the Mac Symbols Keyboard behavior. I use this
+# cos I prefer the US layout for programming, but still write a lot in Spanish.
+# In example:
+# `r_alt+e e => é`
+# `r_alt+n n => ñ`
+# `r_alt+u a => ä`
+# `r_alt+s => ß`
+#
+# The `-ctrl:nocaps` bit remaps the caps lock key to ctrl to prevent myself
+# from messing up with Vim.
+setxkbmap -layout us -variant mac -option ctrl:nocaps
+
+# DWM restart loop.
+# To stop this script exec `killall xinit`.
+while true; do
+    dwm 2> ~/.dwm.log
+done

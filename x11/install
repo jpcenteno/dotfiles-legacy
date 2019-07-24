@@ -1,0 +1,9 @@
+#! /bin/sh
+
+SCRIPTS_DIR="${HOME}/.bin"
+
+# Alias the .xinitrc
+ln -sf "$(pwd)/x11/xinitrc" "${HOME}/.xinitrc"
+
+# Alias the status bar script
+ln -sf "$(pwd)/x11/dwm_status_bar" "${SCRIPTS_DIR}/dwm_status_bar"
