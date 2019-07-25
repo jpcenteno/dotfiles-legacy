@@ -9,13 +9,12 @@ while true; do
     else
         xsetroot -name "dwm_status_bar not found!"
     fi
-    sleep 1s
+    sleep 0.25s
 done &
 
 # set wallpaper color.
 xsetroot -solid "#222222" # same color i'm using for bg in dwm
 
-# Keyboard settings:
 #
 # The `-variant mac` part mimics the Mac Symbols Keyboard behavior. I use this
 # cos I prefer the US layout for programming, but still write a lot in Spanish.
@@ -27,7 +26,17 @@ xsetroot -solid "#222222" # same color i'm using for bg in dwm
 #
 # The `-ctrl:nocaps` bit remaps the caps lock key to ctrl to prevent myself
 # from messing up with Vim.
-setxkbmap -layout us -variant mac -option ctrl:nocaps
+setxkbmap -layout us -variant mac -option 'ctrl:nocaps'
+# Keyboard settings:
+#
+# xcape is a cool utility that allows to map a modifier key as another key (or
+# combination) when pressed and released on its own.
+# - This maps Caps lock to ESC when pressed and released on its own.
+# - The `-t 250` sets the timeout.
+if command -V xcape > /dev/null; then
+    killall xcape
+    xcape -t 250 -e 'Control_L=Escape'
+fi
 
 # DWM restart loop.
 # To stop this script exec `killall xinit`.
