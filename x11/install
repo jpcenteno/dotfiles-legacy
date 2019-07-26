@@ -2,6 +2,27 @@
 
 SCRIPTS_DIR="${HOME}/.bin"
 
+echo_info() {
+    echo "[INFO] $@" 1>&2
+}
+
+echo_warn() {
+    echo "[WARN] $@" 1>&2
+}
+
+# Install xcape if not present.
+if ! command -V xcape > /dev/null; then
+
+    if [ -f /etc/arch-release ]; then
+        echo_info 'Installing `xcape` on arch'
+        sudo pacman -S xcape
+    else
+        echo_warn 'Could not install `xcape`'
+    fi
+
+fi
+
+
 # Alias the .xinitrc
 ln -sf "$(pwd)/x11/xinitrc" "${HOME}/.xinitrc"
 
