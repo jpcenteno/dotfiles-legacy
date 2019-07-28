@@ -1,0 +1,67 @@
+#! /bin/sh
+set -eu
+
+# This script ensures Neovim is installed (except for workstations at my
+# college where I don't have privileges to do that) and clones my personal Vim
+# dotfiles.
+#
+# This is to be run from the same dir as the script.
+
+
+XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
+
+
+# ------------------------------------------------------------------------------
+
+
+readonly SCRIPTNAME='VIM'
+
+
+log() {
+    echo "[$SCRIPTNAME] $@"
+}
+
+
+# Returns true iff the host is a workstation @ FCEN.
+is_host_fcen() {
+    hostname | grep -q -E 'ws[0-9]{1,2}\.labo[0-9]'
+}
+
+
+# ------------------------------------------------------------------------------
+
+
+# Ensure `nvim` is installed. Skip this for FCEN workstations.
+if (! command -V nvim > /dev/null) && (! is_host_fcen); then
+
+    log 'Installing Neovim...'
+
+    if [ -f /etc/arch-release ]; then
+        sudo pacman -S neovim
+    elif ["$OSTYPE" == "darwin"*]; then
+        sudo port install neovim
+    fi
+
+elif is_host_fcen; then
+
+    log 'Cant install Neovim on FCEN workstations!'
+
+else
+    log 'Neovim already installed'
+fi
+
+
+# Clone dotfiles repo
+mkdir -p "$XDG_CONFIG_HOME"
+if [ ! -d "${XDG_CONFIG_HOME}/nvim" ]; then
+    log 'Cloning repo'
+    git clone -C "$XDG_CONFIG_HOME" git@github.com:jpcenteno/.vim.git -d nvim
+else
+    log 'Dotfiles already present.'
+fi
+
+
+if ! command -V nvim > /dev/null; then
+    log 'Linking .vim dir to nvim config'
+    ln -sf "${XDG_CONFIG_HOME}/nvim" "${HOME}/.vim"
+fi
