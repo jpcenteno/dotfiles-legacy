@@ -32,13 +32,13 @@ is_host_fcen() {
 
 
 # Ensure `nvim` is installed. Skip this for FCEN workstations.
-if (! command -V nvim > /dev/null) && (! is_host_fcen); then
+if (! command -V nvim 2>/dev/null) && (! is_host_fcen); then
 
     log 'Installing Neovim...'
 
     if [ -f /etc/arch-release ]; then
         sudo pacman -S neovim
-    elif ["$OSTYPE" == "darwin"*]; then
+    elif [ "$(uname)" == "Darwin" ]; then
         sudo port install neovim
     fi
 
@@ -55,13 +55,13 @@ fi
 mkdir -p "$XDG_CONFIG_HOME"
 if [ ! -d "${XDG_CONFIG_HOME}/nvim" ]; then
     log 'Cloning repo'
-    git clone -C "$XDG_CONFIG_HOME" git@github.com:jpcenteno/.vim.git -d nvim
+    git clone git@github.com:jpcenteno/.vim.git "${XDG_CONFIG_HOME}/nvim"
 else
     log 'Dotfiles already present.'
 fi
 
-
-if ! command -V nvim > /dev/null; then
+# ln vim dir for computers in which I'm stuck with vim
+if ! command -V nvim 2> /dev/null; then
     log 'Linking .vim dir to nvim config'
     ln -sf "${XDG_CONFIG_HOME}/nvim" "${HOME}/.vim"
 fi
