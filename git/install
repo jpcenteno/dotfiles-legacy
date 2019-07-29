@@ -1,0 +1,27 @@
+#! /bin/sh
+set -e -u
+
+
+# This script copies my git config to it's destination.
+
+
+SCRIPTNAME="git"
+XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-"${HOME}/.config"}"
+GIT_CONFIG_HOME="${XDG_CONFIG_HOME}/git"
+
+
+log() {
+    echo "[$SCRIPTNAME] $@"
+}
+
+
+# ------------------------------------------------------------------------------
+
+
+log "Installing vim config"
+
+# Ensure git dir is present
+mkdir -p "${GIT_CONFIG_HOME}"
+
+# Copy git config
+cp config "${GIT_CONFIG_HOME}/config"
