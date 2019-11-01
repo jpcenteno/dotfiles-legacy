@@ -2,3 +2,6 @@
 	path = st/st
 	url = https://git.suckless.org/st/
     ignore = untracked # Ignore changes
+[submodule "_libs/log.sh"]
+	path = _libs/log.sh
+	url = git@github.com:jpcenteno/log.sh.git
