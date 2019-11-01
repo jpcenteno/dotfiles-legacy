@@ -1,0 +1,26 @@
+set completion-ignore-case on
+# This fixes DEL on st:
+set enable-keypad on
+
+set editing-mode vi
+$if mode=vi
+
+    # Mappings for vi-command (normal) mode
+    set keymap vi-command
+    # This restores C-l to clear screen on vi mode:
+    Control-l: clear-screen
+    # List only past commands that are prefixed by current input
+    "\e[A": history-search-backward
+    "\e[B": history-search-forward
+    j: history-search-forward
+    k: history-search-backward
+
+    # Mappings for vi-insert mode
+    set keymap vi-insert
+    # This restores C-l to clear screen on vi mode:
+    Control-l: clear-screen
+    # List only past commands that are prefixed by current input
+    "\e[A": history-search-backward
+    "\e[B": history-search-forward
+
+$endif
