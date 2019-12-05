@@ -1,0 +1,21 @@
+#! /bin/sh
+
+set -eu
+. log.sh
+
+CONFIG_DIR="$HOME/.config/karabiner/"
+COMPLEX_MODIFICATIONS_DIR="$HOME/.config/karabiner/assets/complex_modifications"
+
+log_info "Setting up Karabiner config."
+
+if ! brew cask info karabiner-elements &>/dev/null; then
+    log_info "Installing Karabiner-elements"
+    brew cask install karabiner-elements
+else
+    log_info "Karabiner-elements already installed."
+fi
+
+
+log_info "Copying configuration."
+rm -rf "$CONFIG_DIR"
+cp -r karabiner "$CONFIG_DIR"
