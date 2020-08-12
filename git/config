@@ -2,6 +2,8 @@
     email = jpcenteno@users.noreply.github.com
     name = Joaquín P. Centeno
 
+[core]
+    excludesfile = ~/.gitignore
 
 [alias]
 

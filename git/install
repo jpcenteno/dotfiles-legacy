@@ -1,13 +1,16 @@
 #! /bin/sh
 set -e -u
 
+### Set up my Git config.
+### This script links my personal git config.
 
-# This script copies my git config to it's destination.
 
 
 SCRIPTNAME="git"
 XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-"${HOME}/.config"}"
 GIT_CONFIG_HOME="${XDG_CONFIG_HOME}/git"
+# Full path to self directory.
+SELF_DIR="$( cd "$(dirname "${0}")"; pwd )"
 
 
 log() {
@@ -18,10 +21,11 @@ log() {
 # ------------------------------------------------------------------------------
 
 
-log "Installing vim config"
+log "Installing git config"
 
 # Ensure git dir is present
 mkdir -p "${GIT_CONFIG_HOME}"
 
 # Copy git config
-cp config "${GIT_CONFIG_HOME}/config"
+ln -sf "${SELF_DIR}/config" "${GIT_CONFIG_HOME}/config"
+ln -sf "${SELF_DIR}/gitignore" "${HOME}/.gitignore"
