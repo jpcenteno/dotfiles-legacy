@@ -1,0 +1,16 @@
+#! /bin/sh
+set -eu
+
+## Set up my ZSH config.
+
+XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-"${HOME}/.config"}"
+ZSH_CONFIG_HOME="${XDG_CONFIG_HOME}/zsh"
+SELF_DIR="$( cd "$(dirname "${0}")"; pwd )"
+
+# brew install zsh
+
+# chsh -s "$( command -v zsh )"
+
+ln -sf "${SELF_DIR}/zshenv" "${HOME}/.zshenv"
+# mkdir -p "${ZSH_CONFIG_HOME}"
+ln -sf "${SELF_DIR}/zsh" "${ZSH_CONFIG_HOME}"

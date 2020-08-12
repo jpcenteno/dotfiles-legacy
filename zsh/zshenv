@@ -1,0 +1,84 @@
+#! /usr/bin/env zsh
+
+# ----------------------------------------------------------------------------
+# Aux Functions:
+# ----------------------------------------------------------------------------
+
+__has_program() { command -v "${1}" 1>/dev/null; }
+__not_in_path() { echo ":${PATH}:" | grep -qv ":${1}:" ; }
+__exists_not_in_path() { [ -d "${1}" ] && __not_in_path "${1}" }
+__path_prefix() { __exists_not_in_path "${1}" && export PATH="${1}:${PATH}"; }
+__path_suffix() { __exists_not_in_path "${1}" && export PATH="${PATH}:${1}"; }
+
+# ----------------------------------------------------------------------------
+# Home:
+# ----------------------------------------------------------------------------
+
+export XDG_CONFIG_HOME="${HOME}/.config"
+export XDG_DATA_HOME="${HOME}/.local/share"
+export XDG_CACHE_HOME="${HOME}/.cache"
+
+__path_prefix "${HOME}/.local/bin"
+
+# ----------------------------------------------------------------------------
+# Zsh:
+# ----------------------------------------------------------------------------
+
+export ZDOTDIR="${XDG_CONFIG_HOME}/zsh"
+export ZSH_HIGHLIGHT_HIGHLIGHTERS_DIR='/usr/local/share/zsh-syntax-highlighting/highlighters'
+
+# ----------------------------------------------------------------------------
+# Default Programs:
+# ----------------------------------------------------------------------------
+
+export EDITOR='nvim'
+export VISUAL="${EDITOR}"
+
+# ----------------------------------------------------------------------------
+# Brew:
+# ----------------------------------------------------------------------------
+
+export HOMEBREW_AUTO_UPDATE_SECS='86400'  # 24 Hs.
+export HOMEBREW_NO_ANALYTICS=1
+__path_prefix '/usr/local/bin'
+# Brew does not add these programs to the path by default. Add them to path and
+# make them default.
+__path_prefix '/usr/local/opt/python/libexec/bin'
+__path_prefix '/usr/local/opt/postgresql@11/bin'
+__path_prefix '/usr/local/opt/ruby/bin'
+__path_suffix '/usr/local/opt/openjdk/bin'
+__path_prefix '/usr/local/opt/sqlite/bin'
+
+# ----------------------------------------------------------------------------
+# Latex:
+# ----------------------------------------------------------------------------
+
+__path_suffix '/Library/TeX/texbin'
+
+# ----------------------------------------------------------------------------
+# Go:
+# ----------------------------------------------------------------------------
+
+export GOPATH="${HOME}/code/go"
+export GOBIN="${HOME}/code/go/bin"
+__path_prefix "${GOBIN}"
+
+# ----------------------------------------------------------------------------
+# Python:
+# ----------------------------------------------------------------------------
+
+__path_suffix "$(python -m site --user-base)/bin"
+
+# ----------------------------------------------------------------------------
+# Rust
+# ----------------------------------------------------------------------------
+
+export CARGO_HOME="${HOME}/.local/cargo"
+export RUSTUP_HOME="${HOME}/.local/rustp"
+__path_suffix "${HOME}/.local/cargo/bin"
+
+# ----------------------------------------------------------------------------
+# zk:
+# ----------------------------------------------------------------------------
+
+export ZK_HUGO_DIR="${HOME}/Code/zettels"
