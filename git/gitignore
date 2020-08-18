@@ -3,3 +3,6 @@
 
 # Direnv:
 .envrc
+
+# Text Editors and IDEs
+.idea/
