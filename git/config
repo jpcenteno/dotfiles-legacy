@@ -30,3 +30,5 @@
 
     # src: https://coderwall.com/p/euwpig/a-better-git-log
     lg  = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --
+
+    delete-every-other-branch = "!git branch | grep -v '^*' | xargs git branch -D"
