@@ -48,6 +48,7 @@ __path_prefix '/usr/local/opt/postgresql@11/bin'
 __path_prefix '/usr/local/opt/ruby/bin'
 __path_suffix '/usr/local/opt/openjdk/bin'
 __path_prefix '/usr/local/opt/sqlite/bin'
+__path_prefix '/usr/local/opt/coreutils/libexec/gnubin'
 
 # ----------------------------------------------------------------------------
 # Latex:
