@@ -1,0 +1,70 @@
+# Docs: https://starship.rs/config/#prompt
+
+[git_branch]
+symbol = "⽀"
+[jobs]
+symbol = "zzZ "
+
+# [custom.taskwarrior]
+# description = "Number of pending tasks in the TaskWarrior Inbox."
+# command = "task +in +PENDING count"
+# prefix = ""
+# # Hide when inbox 0. Also, at least `when = "true"` is necessary.
+# when = "test 0 -lt $(task +in +PENDING count)"
+# style = "bold yellow"
+
+# ------------------------------------------------------------------------------
+# Disabled modules
+# ------------------------------------------------------------------------------
+
+# This module takes into measure how long I took to run the last command and
+# mixes it up with the command run time. I tried to fix that, but failed. Maybe
+# will try again later.
+[cmd_duration]
+disabled = true
+
+# Programming language versions:
+[conda]
+disabled = true
+
+[crystal]
+disabled = true
+
+[dotnet]
+disabled = true
+
+[elixir]
+disabled = true
+
+[elm]
+disabled = true
+
+[golang]
+disabled = true
+
+[haskell]
+disabled = true
+
+[java]
+disabled = true
+
+[kubernetes]
+disabled = true
+
+[nodejs]
+disabled = true
+
+[package]
+disabled = true
+
+[php]
+disabled = true
+
+[python]
+disabled = true
+
+[ruby]
+disabled = true
+
+[rust]
+disabled = true

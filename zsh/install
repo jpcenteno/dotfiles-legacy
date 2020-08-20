@@ -1,6 +1,8 @@
 #! /bin/sh
 set -eu
 
+__has_program() { command -v "${1}" 1>/dev/null; }
+
 ## Set up my ZSH config.
 
 XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-"${HOME}/.config"}"
@@ -12,5 +14,17 @@ SELF_DIR="$( cd "$(dirname "${0}")"; pwd )"
 # chsh -s "$( command -v zsh )"
 
 ln -sf "${SELF_DIR}/zshenv" "${HOME}/.zshenv"
-# mkdir -p "${ZSH_CONFIG_HOME}"
 ln -sf "${SELF_DIR}/zsh" "${ZSH_CONFIG_HOME}"
+
+if ! __has_program "starship"; then
+    if __has_program "brew"; then
+        brew install starship
+    else
+        echo "Could not install starship"
+    fi
+fi
+
+# If starship was successfully installed
+if __has_program "starship"; then
+    ln -sf "${SELF_DIR}/starship.toml" "${XDG_CONFIG_HOME}/starship.toml"
+fi
