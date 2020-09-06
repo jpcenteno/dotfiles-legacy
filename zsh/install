@@ -28,3 +28,7 @@ fi
 if __has_program "starship"; then
     ln -sf "${SELF_DIR}/starship.toml" "${XDG_CONFIG_HOME}/starship.toml"
 fi
+
+if [ -f "/etc/zprofile" ]; then
+    sudo mv "/etc/zprofile" "/etc/zprofile.bak"
+fi
