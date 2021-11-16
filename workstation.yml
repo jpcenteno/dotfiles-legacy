@@ -1,0 +1,83 @@
+- name: "Setup tools I use on my workstations."
+  hosts: localhost
+  connection: local
+
+  vars:
+    user_config_dir: "{{ ansible_env.HOME }}/.config"
+    git:
+      user_config_dir: "{{ user_config_dir }}/git"
+    zsh:
+      user_config_dir: "{{ user_config_dir }}/zsh"
+
+  # ----------------------------------------------------------------------------
+  # Zsh
+  # ----------------------------------------------------------------------------
+   
+  tasks:
+    - name: "Ensure utilities are installed."
+      community.general.homebrew:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - zsh
+        - bat
+        - direnv
+        - exa
+        - fd
+        - fzf
+        - git
+        - htop
+        - jq
+        - ripgrep
+        - starship
+        - nnn
+
+    # --------------------------------------------------------------------------
+    # Zsh
+    # --------------------------------------------------------------------------
+
+    - name: "Ensure ~/.zshenv is up to date."
+      ansible.builtin.copy:
+        src: zsh/zshenv
+        dest: "{{ ansible_env.HOME }}/.zshenv"
+
+    - name: "Ensure ~/.zshrc is up to date."
+      ansible.builtin.copy:
+        src: zsh/zshrc
+        dest: "{{ zsh.user_config_dir }}/.zshrc"
+
+    - name: "Get information about aliases defined in the `zshrc`."
+      shell: zsh -c '. ~/.zshrc && alias'
+      register: zsh_aliases_result
+
+    - name: "Test that the aliases I like are present on the shell environment."
+      assert:
+        that:
+          - "'g=git' in zsh_aliases_result.stdout"
+          - "'ls=exa' in zsh_aliases_result.stdout"
+          - "'vim=nvim' in zsh_aliases_result.stdout"
+          - "'cat=bat' in zsh_aliases_result.stdout"
+
+    - name: "Get information about ENV vars defined in the `zshrc`."
+      shell: zsh -c '. ~/.zshrc && env'
+      register: zsh_env_result
+
+    - name: "Test that the ENV vars I like are set on the shell environment."
+      assert:
+        that:
+          - "'EDITOR=nvim' in zsh_env_result.stdout"
+          - "'XDG_CONFIG_HOME={{ ansible_env.HOME }}/.config' in zsh_env_result.stdout"
+
+    # --------------------------------------------------------------------------
+    # Git
+    # --------------------------------------------------------------------------
+
+    # - name: "Ensure personal `config` file is present."
+    #   ansible.builtin.template:
+    #     src: "./git/config.j2"
+    #     dest: "{{ git.user_config_dir }}/config"
+    
+    - name: "Ensure global `gitignore` is present."
+      ansible.builtin.copy:
+        src: "./git/gitignore"
+        dest: "{{ git.user_config_dir }}/gitignore"
