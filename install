@@ -1,0 +1,38 @@
+#! /bin/sh
+set -eu
+
+HOME_EXECUTABLES_DIR="${HOME}/.bin"
+mkdir -p "${HOME_EXECUTABLES_DIR}"
+
+XDG_CONFIG_HOME="${HOME}/.config"
+
+__link() {
+	original="${1}"
+	link="${2}"
+
+	ln -s "${original}" "${link}"
+}
+
+ln -fs "${PWD}/zsh/zshrc" "${HOME}/.zshrc"
+
+# ------------------------------------------------------------------------------
+# Git
+# ------------------------------------------------------------------------------
+
+mkdir -p "${XDG_CONFIG_HOME}/git"
+ln -sf "${PWD}/git/config" "${XDG_CONFIG_HOME}/git/config"
+ln -sf "${PWD}/git/gitignore" "${XDG_CONFIG_HOME}/git/gitignore"
+
+# ------------------------------------------------------------------------------
+# Rust
+# ------------------------------------------------------------------------------
+
+# Create a proxy commnad for rust-analyzer.
+#
+# As of Aug 2021, `rustup` is still not adding a `rust-analyzer` command to the
+# `$PATH` because the tool is still on an unstable phase.
+# cat <<EOF > ~/.bin/rust-analyzer
+# #! /bin/sh
+# rustup run nightly rust-analyzer
+# EOF
+# chmod +x "${HOME_EXECUTABLES_DIR}/rust-analyzer"

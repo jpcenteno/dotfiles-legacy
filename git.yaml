@@ -1,0 +1,24 @@
+- name: "Setup for my .vim configuration" 
+  hosts: localhost
+  connection: local
+
+  vars:
+    config_dir: "{{ ansible_env.XDG_CONFIG_HOME }}"
+    git:
+      config_dir: "{{ config_dir }}/git"
+
+  tasks:
+    - name: "Ensure `git` is installed."
+      community.general.homebrew:
+        name: git
+        state: present
+
+    - name: "Ensure global `gitignore` is present."
+      ansible.builtin.copy:
+        src: "./git/gitignore"
+        dest: "{{ git.config_dir }}/gitignore"
+
+    - name: "Ensure personal `config` file is present."
+      ansible.builtin.template:
+        src: "./git/config.j2"
+        dest: "{{ git.config_dir }}/config"

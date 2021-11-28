@@ -1,0 +1,22 @@
+- hosts: localhost
+  connection: local
+  # gather_facts: False
+
+  tasks:
+
+    - name: "Ensure `tmux` is installed."
+      community.general.homebrew:
+        name: tmux
+        state: present
+
+    - name: "Ensure `reattach-to-user-namespace` is installed. (In order to copy to clipboard)"
+      community.general.homebrew:
+        name: reattach-to-user-namespace
+        state: present
+
+    - name: "Ensure my personal config is up to date." 
+      ansible.builtin.copy:
+        src: "./tmux/tmux.conf"
+        # Note that `tmux` will look for it's config at
+        # `~/.config/tmux/tmux.conf` regardles of `$XDG_CONFIG_HOME`.
+        dest: "{{ ansible_env.HOME }}/.config/tmux/tmux.conf"

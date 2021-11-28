@@ -9,6 +9,9 @@
     zsh:
       user_config_dir: "{{ user_config_dir }}/zsh"
 
+  roles:
+    - go-dev-env
+
   # ----------------------------------------------------------------------------
   # Zsh
   # ----------------------------------------------------------------------------
@@ -72,10 +75,10 @@
     # Git
     # --------------------------------------------------------------------------
 
-    # - name: "Ensure personal `config` file is present."
-    #   ansible.builtin.template:
-    #     src: "./git/config.j2"
-    #     dest: "{{ git.user_config_dir }}/config"
+    - name: "Ensure personal `config` file is present."
+      ansible.builtin.template:
+        src: "./git/config.j2"
+        dest: "{{ git.user_config_dir }}/config"
     
     - name: "Ensure global `gitignore` is present."
       ansible.builtin.copy:

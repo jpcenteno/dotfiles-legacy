@@ -1,0 +1,21 @@
+- name: "Test workstation user environment."
+- hosts: localhost
+  connection: local
+
+  tasks:
+
+    - name: "Gather Zsh aliases"
+      shell: zsh -c '. ~/.zshrc && alias'
+      register: zsh_aliases_result
+
+    - name: "Gather Zsh ENV variables"
+      shell: zsh -c '. ~/.zshrc && env'
+      register: zsh_env_result
+
+    - name: "Ensure prefered aliases are set in Zsh"
+      assert:
+        that:
+          - "'g=git' in zsh_aliases_result.stdout"
+          - "'ls=exa' in zsh_aliases_result.stdout"
+          - "'vim=nvim' in zsh_aliases_result.stdout"
+          - "'cat=bat' in zsh_aliases_result.stdout"

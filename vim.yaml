@@ -1,0 +1,35 @@
+- hosts: localhost
+  connection: local
+  # gather_facts: False
+  #
+
+  tasks:
+
+    - name: "Install vim configuration dependencies"
+      community.general.homebrew:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - yarn # Required for CoC.
+
+    - name: "Ensure GNU tar is installed (required to decompress elixir-ls)"
+      community.general.homebrew:
+        name: gnu-tar
+        state: present
+
+    - name: "Get info about the latest elixir-ls releace"
+      ansible.builtin.uri:
+        url: https://api.github.com/repos/elixir-lsp/elixir-ls/releases/latest
+        return_content: true
+      register: elixir_ls_latest_release_metadata
+
+    - name: "Ensure coc-elixir/els-release directory exists"
+      ansible.builtin.file:
+        path: "{{ ansible_env.HOME }}/.config/nvim/plugged/coc-elixir/els-release"
+        state: "directory"
+
+    - name: "Fetch latest elixir-ls release"
+      ansible.builtin.unarchive:
+        src: "{{ elixir_ls_latest_release_metadata.json.tarball_url }}"
+        remote_src: true
+        dest: "{{ ansible_env.HOME }}/.config/nvim/plugged/coc-elixir/els-release"
